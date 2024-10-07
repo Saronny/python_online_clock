@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Server Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #282c34;
+            color: #61dafb;
+            font-size: 48px;
+        }
+    </style>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <div>
+        <p>Current Time:</p>
+        <div id="clock">Loading...</div>
+    </div>
+    <script>
+        const socket = io();
+        const clock = document.getElementById('clock');
+
+        socket.on('update', function(data) {
+            try {
+                const time = new Date(data.time);
+                clock.innerHTML = time.toLocaleTimeString();
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
