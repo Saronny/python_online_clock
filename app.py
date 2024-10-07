@@ -6,8 +6,6 @@ import datetime
 
 app = Flask(__name__)
 sock = SocketIO(app)
-
-# Global variable to store active connections
 clients = set()
 
 @app.route('/')
@@ -26,11 +24,9 @@ def handle_disconnect():
 
 def background_time_update():
     while True:
-        # Broadcast time updates to all connected clients
         sock.emit('update', {'time': datetime.datetime.now().isoformat()})
-        sock.sleep(1)  # Non-blocking sleep provided by Flask-SocketIO
+        sock.sleep(1) 
 
-# Start the background task
 sock.start_background_task(target=background_time_update)
 
 def checkFavoriteIcon():
